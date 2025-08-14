@@ -9,6 +9,8 @@ const LogementContainer = styled.div`
   max-width: 1240px;
   margin: 0 auto;
   padding: 20px;
+  height: 415px
+  top: 163px
 `;
 
 const LogementInfo = styled.div`
@@ -78,6 +80,7 @@ const HostName = styled.p`
   text-align: right;
   margin: 0;
   width: 93px;
+  color: #ff6b6b;
 `;
 
 const HostPicture = styled.img`
