@@ -1,13 +1,88 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
+import arrowLeft from '../assets/arrow-left.svg';
+import arrowRight from '../assets/arrow-right.svg';
+
+const SlideshowContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  width: 100%;
+`;
+
+const SlideImage = styled.img`
+  width: 100%;
+  height: auto;
+  display: block;
+`;
+
+const ArrowButton = styled.img`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+
+  &.left {
+    left: 10px;
+  }
+
+  &.right {
+    right: 10px;
+  }
+`;
+
+const Counter = styled.div`
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  color: white;
+  background: rgba(0,0,0,0.4);
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+`;
+
+const Indicators = styled.div`
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+`;
+
+const IndicatorButton = styled.button`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: ${({ active }) => (active ? 'white' : 'rgba(255,255,255,0.5)')};
+  cursor: pointer;
+`;
+
+const Placeholder = styled.div`
+  width: 100%;
+  height: 300px;
+  background-color: #f0f0f0;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Slideshow = ({ pictures = [] }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   if (!pictures || pictures.length === 0) {
     return (
-      <div className="slideshow slideshow--no-images">
-        <div className="slideshow__placeholder">Aucune image disponible</div>
-      </div>
+      <SlideshowContainer>
+        <Placeholder>Aucune image disponible</Placeholder>
+      </SlideshowContainer>
     );
   }
 
@@ -30,58 +105,49 @@ const Slideshow = ({ pictures = [] }) => {
   const showNavigation = pictures.length > 1;
 
   return (
-    <div className="slideshow">
-      <div className="slideshow__container">
-        <img
-          src={pictures[currentImageIndex]}
-          alt={`Image ${currentImageIndex + 1}`}
-          className="slideshow__image"
-          onError={(e) => {
-            e.target.src = '/placeholder-image.jpg';
-          }}
-        />
+    <SlideshowContainer>
+      <SlideImage
+        src={pictures[currentImageIndex]}
+        alt={`Image ${currentImageIndex + 1}`}
+        onError={(e) => {
+          e.target.src = '/placeholder-image.jpg';
+        }}
+      />
 
-        {showNavigation && (
-          <>
-            <img
-              src="./assets/arrow-left.svg"
-              alt="Précédent"
-              className="slideshow__arrow slideshow__arrow--left"
-              onClick={prevImage}
-              style={{ cursor: 'pointer' }}
+      {showNavigation && (
+        <>
+          <ArrowButton
+            src={arrowLeft}
+            alt="Précédent"
+            className="left"
+            onClick={prevImage}
+          />
+          <ArrowButton
+            src={arrowRight}
+            alt="Suivant"
+            className="right"
+            onClick={nextImage}
+          />
+        </>
+      )}
+
+      {showNavigation && (
+        <Counter>{currentImageIndex + 1}/{pictures.length}</Counter>
+      )}
+
+      {showNavigation && pictures.length <= 10 && (
+        <Indicators>
+          {pictures.map((_, index) => (
+            <IndicatorButton
+              key={index}
+              active={index === currentImageIndex}
+              onClick={() => goToImage(index)}
+              aria-label={`Aller à l'image ${index + 1}`}
             />
-            <img
-              src="./assets/arrow-right.svg"
-              alt="Suivant"
-              className="slideshow__arrow slideshow__arrow--right"
-              onClick={nextImage}
-              style={{ cursor: 'pointer' }}
-            />
-          </>
-        )}
-
-        {showNavigation && (
-          <div className="slideshow__counter">
-            {currentImageIndex + 1}/{pictures.length}
-          </div>
-        )}
-
-        {showNavigation && pictures.length <= 10 && (
-          <div className="slideshow__indicators">
-            {pictures.map((_, index) => (
-              <button
-                key={index}
-                className={`slideshow__indicator ${
-                  index === currentImageIndex ? 'slideshow__indicator--active' : ''
-                }`}
-                onClick={() => goToImage(index)}
-                aria-label={`Aller à l'image ${index + 1}`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+          ))}
+        </Indicators>
+      )}
+    </SlideshowContainer>
   );
 };
 
