@@ -1,126 +1,128 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Navigate } from "react-router-dom";
-import styled from "styled-components";
 import Slideshow from "../composants/slideshow";
 import Rating from "../composants/Notes";
 import Collapse from "../composants/collapse";
 
-const LogementContainer = styled.div`
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 20px;
-  height: 415px
-  top: 163px
-`;
-
-const LogementInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 24px;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
+const styles = {
+  logementContainer: {
+    maxWidth: '1240px',
+    margin: '0 auto',
+    padding: '20px',
+    height: '415px',
+    top: '163px'
+  },
+  logementInfo: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginBottom: '24px'
+  },
+  leftSection: {
+    flex: 1
+  },
+  rightSection: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    gap: '20px'
+  },
+  title: {
+    fontSize: '36px',
+    fontWeight: 500,
+    color: '#FF6060',
+    margin: '0 0 5px 0'
+  },
+  location: {
+    fontSize: '18px',
+    color: '#FF6060',
+    margin: '0 0 20px 0'
+  },
+  tagsContainer: {
+    display: 'flex',
+    gap: '10px',
+    flexWrap: 'wrap'
+  },
+  tag: {
+    backgroundColor: '#FF6060',
+    color: 'white',
+    padding: '3px 15px',
+    borderRadius: '10px',
+    fontSize: '14px',
+    fontWeight: 500
+  },
+  hostInfo: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px'
+  },
+  hostName: {
+    fontSize: '18px',
+    fontWeight: 500,
+    textAlign: 'right',
+    margin: 0,
+    width: '93px',
+    color: '#ff6b6b'
+  },
+  hostPicture: {
+    width: '64px',
+    height: '64px',
+    borderRadius: '50%',
+    objectFit: 'cover'
+  },
+  collapseSection: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: '76px',
+    marginTop: '24px'
+  },
+  loadingMessage: {
+    textAlign: 'center',
+    padding: '2rem',
+    fontSize: '1.2rem',
+    color: '#666'
+  },
+  errorMessage: {
+    textAlign: 'center',
+    padding: '2rem',
+    fontSize: '1.2rem',
+    color: '#ff6b6b'
+  },
+  // Media queries styles (à appliquer conditionnellement)
+  mobileLogementInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: '24px'
+  },
+  mobileRightSection: {
+    display: 'flex',
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: '20px'
+  },
+  mobileCollapseSection: {
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    gap: '20px',
+    marginTop: '24px'
   }
-`;
-
-const LeftSection = styled.div`
-  flex: 1;
-`;
-
-const RightSection = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 20px;
-  
-  @media (max-width: 768px) {
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    align-items: center;
-  }
-`;
-
-const Title = styled.h1`
-  font-size: 36px;
-  font-weight: 500;
-  color: #FF6060;
-  margin: 0 0 5px 0;
-`;
-
-const Location = styled.p`
-  font-size: 18px;
-  color: #FF6060;
-  margin: 0 0 20px 0;
-`;
-
-const TagsContainer = styled.div`
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-`;
-
-const Tag = styled.span`
-  background-color: #FF6060;
-  color: white;
-  padding: 3px 15px;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 500;
-`;
-
-const HostInfo = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-`;
-
-const HostName = styled.p`
-  font-size: 18px;
-  font-weight: 500;
-  text-align: right;
-  margin: 0;
-  width: 93px;
-  color: #ff6b6b;
-`;
-
-const HostPicture = styled.img`
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  object-fit: cover;
-`;
-
-const CollapseSection = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 76px;
-  margin-top: 24px;
-  
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-`;
-
-const LoadingMessage = styled.div`
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.2rem;
-  color: #666;
-`;
-
-const ErrorMessage = styled.div`
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.2rem;
-  color: #ff6b6b;
-`;
+};
 
 function Logement() {
   const { locationId } = useParams();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -159,48 +161,49 @@ function Logement() {
 
   if (loading) {
     return (
-      <LogementContainer>
-        <LoadingMessage>Chargement du logement...</LoadingMessage>
-      </LogementContainer>
+      <div style={styles.logementContainer}>
+        <div style={styles.loadingMessage}>Chargement du logement...</div>
+      </div>
     );
   }
 
   if (error === 'fetch_error' || !property) {
     return (
-      <LogementContainer>
-        <ErrorMessage>Erreur lors du chargement du logement</ErrorMessage>
-      </LogementContainer>
+      <div style={styles.logementContainer}>
+        <div style={styles.errorMessage}>Erreur lors du chargement du logement</div>
+      </div>
     );
   }
 
   return (
-    <LogementContainer>
+    <div style={styles.logementContainer}>
       <Slideshow pictures={property.pictures} />
       
-      <LogementInfo>
-        <LeftSection>
-          <Title>{property.title}</Title>
-          <Location>{property.location}</Location>
-          <TagsContainer>
+      <div style={isMobile ? styles.mobileLogementInfo : styles.logementInfo}>
+        <div style={styles.leftSection}>
+          <h1 style={styles.title}>{property.title}</h1>
+          <p style={styles.location}>{property.location}</p>
+          <div style={styles.tagsContainer}>
             {property.tags?.map((tag, index) => (
-              <Tag key={index}>{tag}</Tag>
+              <span key={index} style={styles.tag}>{tag}</span>
             ))}
-          </TagsContainer>
-        </LeftSection>
+          </div>
+        </div>
         
-        <RightSection>
-          <HostInfo>
-            <HostName>{property.host?.name}</HostName>
-            <HostPicture 
+        <div style={isMobile ? styles.mobileRightSection : styles.rightSection}>
+          <div style={styles.hostInfo}>
+            <p style={styles.hostName}>{property.host?.name}</p>
+            <img 
               src={property.host?.picture} 
               alt={property.host?.name} 
+              style={styles.hostPicture}
             />
-          </HostInfo>
+          </div>
           <Rating rating={property.rating} />
-        </RightSection>
-      </LogementInfo>
+        </div>
+      </div>
 
-      <CollapseSection>
+      <div style={isMobile ? styles.mobileCollapseSection : styles.collapseSection}>
         <Collapse label="Description">
           {property.description}
         </Collapse>
@@ -209,8 +212,8 @@ function Logement() {
             <div key={index}>{equipment}</div>
           ))}
         </Collapse>
-      </CollapseSection>
-    </LogementContainer>
+      </div>
+    </div>
   );
 }
 

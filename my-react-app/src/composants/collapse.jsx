@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import ArrowDown from "../assets/arrow-down.svg";
-import ArrowUp from "../assets/arrow-up.svg";
 
 const CollapseWrapper = styled.div`
   width: 100%;
@@ -25,6 +24,7 @@ const CollapseArrow = styled.img`
   width: 20px;
   height: 20px;
   transition: transform 0.3s ease;
+  transform: ${(props) => (props.open ? "rotate(180deg)" : "rotate(0deg)")};
 `;
 
 const CollapseContent = styled.div`
@@ -53,11 +53,9 @@ function Collapse({ label, children }) {
     <CollapseWrapper>
       <CollapseButton onClick={() => setOpen(!open)}>
         {label}
-        <CollapseArrow src={open ? ArrowUp : ArrowDown} alt="arrow" />
+        <CollapseArrow src={ArrowDown} alt="arrow" open={open} />
       </CollapseButton>
-      <CollapseContent open={open}>
-        {children}
-      </CollapseContent>
+      <CollapseContent open={open}>{children}</CollapseContent>
     </CollapseWrapper>
   );
 }

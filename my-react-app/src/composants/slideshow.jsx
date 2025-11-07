@@ -5,13 +5,16 @@ import arrowRight from '../assets/arrow-right.svg';
 
 const SlideshowContainer = styled.div`
   position: relative;
-  display: inline-block;
   width: 100%;
+  height: 415px; 
+  border-radius: 15px;
+  overflow: hidden;
 `;
 
 const SlideImage = styled.img`
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover; 
   display: block;
 `;
 
@@ -19,60 +22,35 @@ const ArrowButton = styled.img`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.3);
-  padding: 8px;
-  border-radius: 50%;
   cursor: pointer;
   z-index: 2;
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
+  filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
 
   &.left {
-    left: 10px;
+    left: 20px;
   }
 
   &.right {
-    right: 10px;
+    right: 20px;
+  }
+
+  &:hover {
+    transform: translateY(-50%) scale(1.1);
+    transition: transform 0.2s ease;
   }
 `;
 
 const Counter = styled.div`
   position: absolute;
-  bottom: 10px;
-  right: 15px;
-  color: white;
-  background: rgba(0,0,0,0.4);
-  padding: 5px 10px;
-  border-radius: 12px;
-  font-size: 0.9rem;
-`;
-
-const Indicators = styled.div`
-  position: absolute;
-  bottom: 10px;
+  bottom: 15px;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-`;
-
-const IndicatorButton = styled.button`
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  border: none;
-  background: ${({ active }) => (active ? 'white' : 'rgba(255,255,255,0.5)')};
-  cursor: pointer;
-`;
-
-const Placeholder = styled.div`
-  width: 100%;
-  height: 300px;
-  background-color: #f0f0f0;
-  color: #666;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  text-shadow: 0px 0px 4px rgba(0,0,0,0.7);
 `;
 
 const Slideshow = ({ pictures = [] }) => {
@@ -81,7 +59,7 @@ const Slideshow = ({ pictures = [] }) => {
   if (!pictures || pictures.length === 0) {
     return (
       <SlideshowContainer>
-        <Placeholder>Aucune image disponible</Placeholder>
+        <SlideImage src="/placeholder-image.jpg" alt="placeholder" />
       </SlideshowContainer>
     );
   }
@@ -98,23 +76,14 @@ const Slideshow = ({ pictures = [] }) => {
     );
   };
 
-  const goToImage = (index) => {
-    setCurrentImageIndex(index);
-  };
-
-  const showNavigation = pictures.length > 1;
-
   return (
     <SlideshowContainer>
       <SlideImage
         src={pictures[currentImageIndex]}
         alt={`Image ${currentImageIndex + 1}`}
-        onError={(e) => {
-          e.target.src = '/placeholder-image.jpg';
-        }}
       />
 
-      {showNavigation && (
+      {pictures.length > 1 && (
         <>
           <ArrowButton
             src={arrowLeft}
@@ -128,24 +97,10 @@ const Slideshow = ({ pictures = [] }) => {
             className="right"
             onClick={nextImage}
           />
+          <Counter>
+            {currentImageIndex + 1}/{pictures.length}
+          </Counter>
         </>
-      )}
-
-      {showNavigation && (
-        <Counter>{currentImageIndex + 1}/{pictures.length}</Counter>
-      )}
-
-      {showNavigation && pictures.length <= 10 && (
-        <Indicators>
-          {pictures.map((_, index) => (
-            <IndicatorButton
-              key={index}
-              active={index === currentImageIndex}
-              onClick={() => goToImage(index)}
-              aria-label={`Aller à l'image ${index + 1}`}
-            />
-          ))}
-        </Indicators>
       )}
     </SlideshowContainer>
   );

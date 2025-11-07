@@ -1,34 +1,36 @@
 import React from "react";
-import styled from "styled-components";
+
+const styles = {
+  footerContainer: {
+    backgroundColor: 'black',
+    color: 'white',
+    textAlign: 'center',
+    padding: '2rem 1rem',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '1440px',
+    height: '209px'
+  },
+  logo: {
+    width: '122px',
+    height:'39.44px',
+    marginBottom: '1rem'
+  },
+  text: {
+    fontSize: '0.9rem',
+    whiteSpace: 'pre-line',
+    margin: 0
+  }
+};
 
 export default function Footer() {
   const rights = "© 2020 Kasa. All rights reserved";
 
   return (
-    <FooterContainerStyled>
-      <img src="/src/assets/LOGO-white.svg" alt="Kasa Logo" />
-      <p>{rights}</p>
-    </FooterContainerStyled>
+    <footer style={styles.footerContainer}>
+      <img src="/src/assets/LOGO-white.svg" alt="Kasa Logo" style={styles.logo} />
+      <p style={styles.text}>{rights}</p>
+    </footer>
   );
 }
-
-// Styled component pour le footer
-const FooterContainerStyled = styled.footer`
-  background-color: black;
-  color: white;
-  text-align: center;
-  padding: 2rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  img {
-    width: 100px;
-    margin-bottom: 1rem;
-  }
-
-  p {
-    font-size: 0.9rem;
-    white-space: pre-line; /* Permet d’interpréter \n dans le texte */
-  }
-`;
