@@ -5,12 +5,11 @@ const styles = {
   galleryContainer: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '30px',
-    padding: '50px',
-    backgroundColor: '#f6f6f6',
+    gap: '60px 60px',
+    padding: '56px 50px',
+    backgroundColor: '#F6F6F6',
     borderRadius: '25px',
-    width: '1240px',
-    margin: '0 auto'
+    margin: '40px 0'
   },
   loadingMessage: {
     gridColumn: '1 / -1',
@@ -28,10 +27,30 @@ const styles = {
   }
 };
 
+const mobileStyles = {
+  galleryContainer: {
+    gridTemplateColumns: '1fr',
+    gap: '20px',
+    padding: '20px',
+    backgroundColor: 'transparent',
+    borderRadius: '0',
+    margin: '20px 0'
+  }
+};
+
 function Gallery() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,9 +75,11 @@ function Gallery() {
     fetchData();
   }, []);
 
+  const currentStyles = isMobile ? mobileStyles : {};
+
   if (loading) {
     return (
-      <div style={styles.galleryContainer}>
+      <div style={{...styles.galleryContainer, ...currentStyles.galleryContainer}}>
         <div style={styles.loadingMessage}>
           Chargement des propriétés...
         </div>
@@ -68,14 +89,14 @@ function Gallery() {
 
   if (error) {
     return (
-      <div style={styles.galleryContainer}>
+      <div style={{...styles.galleryContainer, ...currentStyles.galleryContainer}}>
         <div style={styles.errorMessage}>{error}</div>
       </div>
     );
   }
 
   return (
-    <div style={styles.galleryContainer}>
+    <div style={{...styles.galleryContainer, ...currentStyles.galleryContainer}}>
       {properties.map((property) => (
         <Card
           key={property.id}

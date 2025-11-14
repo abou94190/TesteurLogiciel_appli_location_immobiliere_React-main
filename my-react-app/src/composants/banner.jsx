@@ -43,14 +43,33 @@ const styles = {
   }
 };
 
+const mobileStyles = {
+  bannerWrapper: {
+    height: '111px',
+    borderRadius: '10px',
+    margin: '20px 0'
+  },
+  bannerText: {
+    fontSize: '24px',
+    textAlign: 'left',
+    left: '16px',
+    transform: 'translateY(-50%)',
+    padding: '0',
+    width: 'calc(100% - 32px)'
+  }
+};
+
 const Banner = ({ 
   backgroundImage = bannerImg, 
-  altText = "CÃ´te rocheuse", 
+  altText = "Côte rocheuse", 
   text = "Chez vous, partout et ailleurs",
   showText = true 
 }) => {
+  const isMobile = window.innerWidth <= 768;
+  const currentStyles = isMobile ? mobileStyles : {};
+
   return (
-    <div style={styles.bannerWrapper}>
+    <div style={{...styles.bannerWrapper, ...currentStyles.bannerWrapper}}>
       <img 
         src={backgroundImage} 
         alt={altText} 
@@ -58,7 +77,9 @@ const Banner = ({
       />
       <div style={styles.overlay}></div>
       {showText && (
-        <h1 style={styles.bannerText}>{text}</h1>
+        <h1 style={{...styles.bannerText, ...currentStyles.bannerText}}>
+          {text}
+        </h1>
       )}
     </div>
   );
