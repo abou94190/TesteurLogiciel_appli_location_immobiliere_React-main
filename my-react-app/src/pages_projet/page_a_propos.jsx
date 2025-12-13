@@ -1,25 +1,24 @@
 import React from "react";
-import styled from "styled-components";
 import Banner from '../composants/banner';
 import Collapse from "../composants/collapse";
 import aboutBannerImg from '../assets/about-banner.png';
 
-const AboutContainer = styled.div`
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 0 20px;
-`;
-
-const BannerSection = styled.section`
-  margin: 50px 0 30px 0;
-`;
-
-const CollapseSection = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 50px;
-`;
+const styles = {
+  aboutContainer: {
+    maxWidth: "1240px",
+    margin: "0 auto",
+    padding: "0 20px",
+  },
+  bannerSection: {
+    margin: "50px 0 30px 0",
+  },
+  collapseSection: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+    marginBottom: "50px",
+  },
+};
 
 const About = () => {
   const sections = [
@@ -42,23 +41,23 @@ const About = () => {
   ];
 
   return (
-    <AboutContainer>
-      <BannerSection> 
+    <div style={styles.aboutContainer}>
+      <section style={styles.bannerSection}> 
         <Banner 
           backgroundImage={aboutBannerImg}
           altText="Montagnes"
           showText={false}
         />
-      </BannerSection>
+      </section>
       
-      <CollapseSection>
+      <section style={styles.collapseSection}>
         {sections.map((section, index) => (
           <Collapse key={index} label={section.label}>
             {section.content}
           </Collapse>
         ))}
-      </CollapseSection>
-    </AboutContainer>
+      </section>
+    </div>
   );
 };
 

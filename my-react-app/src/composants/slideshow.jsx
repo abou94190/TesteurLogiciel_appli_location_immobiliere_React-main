@@ -1,66 +1,63 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import arrowLeft from '../assets/arrow-left.svg';
 import arrowRight from '../assets/arrow-right.svg';
 
-const SlideshowContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 415px; 
-  border-radius: 15px;
-  overflow: hidden;
-`;
-
-const SlideImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover; 
-  display: block;
-`;
-
-const ArrowButton = styled.img`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  z-index: 2;
-  width: 48px;
-  height: 48px;
-  filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.5));
-
-  &.left {
-    left: 20px;
-  }
-
-  &.right {
-    right: 20px;
-  }
-
-  &:hover {
-    transform: translateY(-50%) scale(1.1);
-    transition: transform 0.2s ease;
-  }
-`;
-
-const Counter = styled.div`
-  position: absolute;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  text-shadow: 0px 0px 4px rgba(0,0,0,0.7);
-`;
+const styles = {
+  slideshowContainer: {
+    position: "relative",
+    width: "100%",
+    height: "415px",
+    borderRadius: "15px",
+    overflow: "hidden",
+  },
+  slideImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    display: "block",
+  },
+  arrowButton: {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    cursor: "pointer",
+    zIndex: 2,
+    width: "48px",
+    height: "48px",
+    filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))",
+  },
+  arrowButtonLeft: {
+    left: "20px",
+  },
+  arrowButtonRight: {
+    right: "20px",
+  },
+  counter: {
+    position: "absolute",
+    bottom: "15px",
+    left: "50%",
+    transform: "translateX(-50%)",
+    color: "white",
+    fontSize: "1rem",
+    fontWeight: "bold",
+    textShadow: "0px 0px 4px rgba(0,0,0,0.7)",
+  },
+};
 
 const Slideshow = ({ pictures = [] }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isHoveringLeft, setIsHoveringLeft] = useState(false);
+  const [isHoveringRight, setIsHoveringRight] = useState(false);
 
   if (!pictures || pictures.length === 0) {
     return (
-      <SlideshowContainer>
-        <SlideImage src="/placeholder-image.jpg" alt="placeholder" />
-      </SlideshowContainer>
+      <div style={styles.slideshowContainer}>
+        <img 
+          style={styles.slideImage}
+          src="/placeholder-image.jpg" 
+          alt="placeholder" 
+        />
+      </div>
     );
   }
 
@@ -77,32 +74,47 @@ const Slideshow = ({ pictures = [] }) => {
   };
 
   return (
-    <SlideshowContainer>
-      <SlideImage
+    <div style={styles.slideshowContainer}>
+      <img
+        style={styles.slideImage}
         src={pictures[currentImageIndex]}
         alt={`Image ${currentImageIndex + 1}`}
       />
 
       {pictures.length > 1 && (
         <>
-          <ArrowButton
+          <img
+            style={{
+              ...styles.arrowButton,
+              ...styles.arrowButtonLeft,
+              transform: isHoveringLeft ? "translateY(-50%) scale(1.1)" : "translateY(-50%)",
+              transition: "transform 0.2s ease",
+            }}
             src={arrowLeft}
             alt="Précédent"
-            className="left"
             onClick={prevImage}
+            onMouseEnter={() => setIsHoveringLeft(true)}
+            onMouseLeave={() => setIsHoveringLeft(false)}
           />
-          <ArrowButton
+          <img
+            style={{
+              ...styles.arrowButton,
+              ...styles.arrowButtonRight,
+              transform: isHoveringRight ? "translateY(-50%) scale(1.1)" : "translateY(-50%)",
+              transition: "transform 0.2s ease",
+            }}
             src={arrowRight}
             alt="Suivant"
-            className="right"
             onClick={nextImage}
+            onMouseEnter={() => setIsHoveringRight(true)}
+            onMouseLeave={() => setIsHoveringRight(false)}
           />
-          <Counter>
+          <div style={styles.counter}>
             {currentImageIndex + 1}/{pictures.length}
-          </Counter>
+          </div>
         </>
       )}
-    </SlideshowContainer>
+    </div>
   );
 };
 

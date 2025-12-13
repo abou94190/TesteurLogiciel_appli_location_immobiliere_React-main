@@ -1,62 +1,78 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import ArrowDown from "../assets/arrow-down.svg";
 
-const CollapseWrapper = styled.div`
-  width: 100%;
-  margin-bottom: 20px;
-`;
-
-const CollapseButton = styled.div`
-  background-color: #ff6060;
-  color: white;
-  border-radius: 5px;
-  padding: 15px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 1.1rem;
-`;
-
-const CollapseArrow = styled.img`
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s ease;
-  transform: ${(props) => (props.open ? "rotate(180deg)" : "rotate(0deg)")};
-`;
-
-const CollapseContent = styled.div`
-  background-color: #f6f6f6;
-  color: #333;
-  padding: 15px 20px;
-  font-size: 1rem;
-  border-radius: 0 0 5px 5px;
-  animation: fadeIn 0.3s ease-in-out;
-  display: ${(props) => (props.open ? "block" : "none")};
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-`;
+const styles = {
+  collapseWrapper: {
+    width: "100%",
+    marginBottom: "20px",
+  },
+  collapseButton: {
+    backgroundColor: "#ff6060",
+    color: "white",
+    borderRadius: "5px",
+    padding: "15px 20px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    cursor: "pointer",
+    fontWeight: "bold",
+    fontSize: "1.1rem",
+    border: "none",
+    width: "100%",
+  },
+  collapseArrow: {
+    width: "20px",
+    height: "20px",
+    transition: "transform 0.3s ease",
+  },
+  collapseArrowOpen: {
+    transform: "rotate(180deg)",
+  },
+  collapseContent: {
+    backgroundColor: "#f6f6f6",
+    color: "#333",
+    padding: "15px 20px",
+    fontSize: "1rem",
+    borderRadius: "0 0 5px 5px",
+    animation: "fadeIn 0.3s ease-in-out",
+  },
+};
 
 function Collapse({ label, children }) {
   const [open, setOpen] = useState(false);
 
   return (
-    <CollapseWrapper>
-      <CollapseButton onClick={() => setOpen(!open)}>
-        {label}
-        <CollapseArrow src={ArrowDown} alt="arrow" open={open} />
-      </CollapseButton>
-      <CollapseContent open={open}>{children}</CollapseContent>
-    </CollapseWrapper>
+    <>
+      <style>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      `}</style>
+
+      <div style={styles.collapseWrapper}>
+        <div style={styles.collapseButton} onClick={() => setOpen(!open)}>
+          {label}
+          <img 
+            src={ArrowDown} 
+            alt="arrow" 
+            style={{
+              ...styles.collapseArrow,
+              ...(open ? styles.collapseArrowOpen : {}),
+            }}
+          />
+        </div>
+        {open && (
+          <div style={styles.collapseContent}>
+            {children}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

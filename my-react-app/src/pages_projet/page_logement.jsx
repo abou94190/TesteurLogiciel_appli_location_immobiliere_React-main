@@ -10,9 +10,9 @@ const styles = {
     maxWidth: "1240px",
     margin: "0 auto",
     padding: "20px",
-    height: "415px",
-    top: "163px",
+    minHeight: "calc(10vh - 200px)", // Hauteur minimale au lieu de hauteur fixe
   },
+
   logementInfo: {
     display: "flex",
     justifyContent: "space-between",
@@ -22,7 +22,8 @@ const styles = {
     flexDirection: "column",
   },
   leftSection: {
-    flex: 1,
+    display: "flex",
+    flexDirection: "column",
   },
   rightSection: {
     display: "flex",
@@ -43,8 +44,10 @@ const styles = {
   },
   location: {
     fontSize: "18px",
-    color: "#ff6060",
+    color: "#000000ff",
     margin: "0 0 20px 0",
+    textAlign: "left",
+    
   },
   tagsContainer: {
     display: "flex",
@@ -101,7 +104,6 @@ const styles = {
     color: "#ff6b6b",
   },
 };
-
 // ====== Component ======
 function Logement() {
   const { locationId } = useParams();
