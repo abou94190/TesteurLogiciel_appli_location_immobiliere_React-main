@@ -11,8 +11,7 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 'auto',
-    height: '209px',
-    width: '1440px'
+    width: '100%',
   },
   logo: {
     width: '122px',
@@ -23,23 +22,17 @@ const styles = {
     fontSize: '24px',
     fontWeight: 500,
     fontFamily: 'Montserrat, sans-serif',
-    lineHeight: '143%',
-    letterSpacing: '0%',
-    textAlign: 'center',
     margin: 0,
     color: 'white',
-    width: '513px',
-    height: '46px'
   }
 };
 
 const mobileStyles = {
   footerContainer: {
-    padding: '62px 0'
+    padding: '62px 20px',
   },
   text: {
     fontSize: '12px',
-    lineHeight: '1.4'
   }
 };
 

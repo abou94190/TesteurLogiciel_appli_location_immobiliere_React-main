@@ -4,18 +4,15 @@ import Slideshow from "../composants/slideshow";
 import Rating from "../composants/Notes";
 import Collapse from "../composants/collapse";
 
-// ====== Styles ======
 const styles = {
   logementContainer: {
-    maxWidth: "1240px",
-    margin: "0 auto",
-    padding: "20px",
-    minHeight: "calc(10vh - 200px)", // Hauteur minimale au lieu de hauteur fixe
+    width: '100%',
+    minHeight: 'calc(100vh - 400px)',
   },
-
   logementInfo: {
     display: "flex",
     justifyContent: "space-between",
+    marginTop: "30px",
     marginBottom: "24px",
   },
   logementInfoMobile: {
@@ -44,10 +41,8 @@ const styles = {
   },
   location: {
     fontSize: "18px",
-    color: "#000000ff",
+    color: "#000000",
     margin: "0 0 20px 0",
-    textAlign: "left",
-    
   },
   tagsContainer: {
     display: "flex",
@@ -73,7 +68,7 @@ const styles = {
     textAlign: "right",
     margin: 0,
     width: "93px",
-    color: "#ff6b6b",
+    color: "#ff6060",
   },
   hostPicture: {
     width: "64px",
@@ -104,7 +99,7 @@ const styles = {
     color: "#ff6b6b",
   },
 };
-// ====== Component ======
+
 function Logement() {
   const { locationId } = useParams();
   const [property, setProperty] = useState(null);

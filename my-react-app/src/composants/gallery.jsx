@@ -5,13 +5,11 @@ const styles = {
   galleryContainer: {
     display: 'grid',
     gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '60px 60px',
+    gap: '50px',
     padding: '56px 50px',
     backgroundColor: '#F6F6F6',
     borderRadius: '25px',
-        width: '1240px',
-    margin: '40px 0'
-
+    width: '100%',
   },
   loadingMessage: {
     gridColumn: '1 / -1',
@@ -36,8 +34,6 @@ const mobileStyles = {
     padding: '20px',
     backgroundColor: 'transparent',
     borderRadius: '0',
-    margin: '20px 0'
-    
   }
 };
 

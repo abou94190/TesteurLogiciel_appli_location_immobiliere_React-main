@@ -4,11 +4,11 @@ import bannerImg from "../assets/banner.png";
 const styles = {
   bannerWrapper: {
     position: 'relative',
-    width: '1240px',
+    width: '100%',
     height: '223px',
     borderRadius: '25px',
     overflow: 'hidden',
-    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.25)'
+    marginBottom: '43px',
   },
   backgroundImage: {
     position: 'absolute',
@@ -17,7 +17,7 @@ const styles = {
     width: '100%',
     height: '100%',
     objectFit: 'cover',
-    filter: 'brightness(75%)',
+    filter: 'brightness(70%)',
     zIndex: 1
   },
   overlay: {
@@ -33,13 +33,14 @@ const styles = {
     position: 'relative',
     zIndex: 3,
     color: 'white',
-    fontSize: '2rem',
-    fontWeight: 'bold',
+    fontSize: '48px',
+    fontWeight: 500,
     textAlign: 'center',
     top: '50%',
     transform: 'translateY(-50%)',
     padding: '0 1rem',
-    margin: 0
+    margin: 0,
+    fontFamily: 'Montserrat, sans-serif',
   }
 };
 
@@ -47,15 +48,12 @@ const mobileStyles = {
   bannerWrapper: {
     height: '111px',
     borderRadius: '10px',
-    margin: '20px 0'
+    marginBottom: '20px',
   },
   bannerText: {
     fontSize: '24px',
     textAlign: 'left',
-    left: '16px',
-    transform: 'translateY(-50%)',
-    padding: '0',
-    width: 'calc(100% - 32px)'
+    paddingLeft: '16px',
   }
 };
 

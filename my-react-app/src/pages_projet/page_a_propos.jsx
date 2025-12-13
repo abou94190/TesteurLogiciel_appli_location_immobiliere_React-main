@@ -5,18 +5,14 @@ import aboutBannerImg from '../assets/about-banner.png';
 
 const styles = {
   aboutContainer: {
-    maxWidth: "1240px",
-    margin: "0 auto",
-    padding: "0 20px",
-  },
-  bannerSection: {
-    margin: "50px 0 30px 0",
+    width: '100%',
   },
   collapseSection: {
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
+    gap: "30px",
     marginBottom: "50px",
+    marginTop: "30px",
   },
 };
 
@@ -42,13 +38,11 @@ const About = () => {
 
   return (
     <div style={styles.aboutContainer}>
-      <section style={styles.bannerSection}> 
-        <Banner 
-          backgroundImage={aboutBannerImg}
-          altText="Montagnes"
-          showText={false}
-        />
-      </section>
+      <Banner 
+        backgroundImage={aboutBannerImg}
+        altText="Montagnes"
+        showText={false}
+      />
       
       <section style={styles.collapseSection}>
         {sections.map((section, index) => (

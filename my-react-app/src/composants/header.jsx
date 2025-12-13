@@ -4,45 +4,33 @@ const styles = {
   headerContainer: {
     display: 'flex',
     justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    width: '1240px',
-    padding: '20px 40px'
+    alignItems: 'center',
+    width: '100%',
+    padding: '45px 0 50px 0',
   },
   logo: {
-    fontFamily: 'Montserrat, sans-serif',
-    fontWeight: 500,
-    fontSize: '24px',
-    color: '#FF6060',
-    display: 'flex',
-    alignItems: 'center',
     height: '68px',
-    width: '210.32px',
-    margin: 0
+    width: 'auto',
   },
   nav: {
     display: 'flex',
-    gap: '40px',
-    alignItems: 'flex-end'
+    gap: '57px',
+    alignItems: 'center',
   },
   navLink: {
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: 500,
     fontSize: '24px',
-    color: 'black',
+    color: '#000000',
     textDecoration: 'none',
-    lineHeight: '143%',
-    verticalAlign: 'bottom'
+    transition: 'text-decoration 0.2s',
   },
   navLinkActive: {
     fontFamily: 'Montserrat, sans-serif',
     fontWeight: 500,
     fontSize: '24px',
-    color: 'black',
+    color: '#000000',
     textDecoration: 'underline',
-    textUnderlineOffset: '0%',
-    textDecorationThickness: '0%',
-    lineHeight: '143%',
-    verticalAlign: 'bottom'
   }
 };
 
@@ -51,11 +39,9 @@ function Header() {
 
   return (
     <header style={styles.headerContainer}>
-      <h1 style={styles.logo}>
-        <span>
-          <img src="src/assets/LOGO.png" alt="Maison" />
-        </span>
-      </h1>
+      <Link to="/">
+        <img src="/src/assets/LOGO.png" alt="Kasa Logo" style={styles.logo} />
+      </Link>
       <nav style={styles.nav}>
         <Link 
           to="/" 
