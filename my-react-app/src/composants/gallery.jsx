@@ -9,7 +9,9 @@ const styles = {
     padding: '56px 50px',
     backgroundColor: '#F6F6F6',
     borderRadius: '25px',
+        width: '1240px',
     margin: '40px 0'
+
   },
   loadingMessage: {
     gridColumn: '1 / -1',
@@ -35,6 +37,7 @@ const mobileStyles = {
     backgroundColor: 'transparent',
     borderRadius: '0',
     margin: '20px 0'
+    
   }
 };
 

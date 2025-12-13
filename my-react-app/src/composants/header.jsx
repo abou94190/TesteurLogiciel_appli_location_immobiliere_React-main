@@ -5,7 +5,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'flex-end',
-    width: '100%',
+    width: '1240px',
     padding: '20px 40px'
   },
   logo: {

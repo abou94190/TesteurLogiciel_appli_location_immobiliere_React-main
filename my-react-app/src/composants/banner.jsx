@@ -4,7 +4,7 @@ import bannerImg from "../assets/banner.png";
 const styles = {
   bannerWrapper: {
     position: 'relative',
-    width: '100%',
+    width: '1240px',
     height: '223px',
     borderRadius: '25px',
     overflow: 'hidden',

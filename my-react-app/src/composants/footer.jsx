@@ -11,7 +11,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 'auto',
-    width: '100%'
+    height: '209px',
+    width: '1440px'
   },
   logo: {
     width: '122px',
@@ -21,8 +22,14 @@ const styles = {
   text: {
     fontSize: '24px',
     fontWeight: 500,
+    fontFamily: 'Montserrat, sans-serif',
+    lineHeight: '143%',
+    letterSpacing: '0%',
+    textAlign: 'center',
     margin: 0,
-    color: 'white'
+    color: 'white',
+    width: '513px',
+    height: '46px'
   }
 };
 
