@@ -10,7 +10,11 @@ const styles = {
     textDecoration: 'none',
     background: 'linear-gradient(180deg, #ffffff 0%, #0a0a0a 0%, #040404 41%, #000000 100%)',
     position: 'relative',
-    transition: 'transform 0.3s'
+    transition: 'transform 0.3s',
+    '@media (max-width: 768px)': {
+      width: '335px',
+      height: '255px'
+    }
   },
   cardImage: {
     width: '100%',
@@ -32,7 +36,11 @@ const styles = {
     background: 'linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent)',
     width: '100%',
     margin: 0,
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    '@media (max-width: 768px)': {
+      padding: '15px',
+      fontSize: '1rem'
+    }
   }
 };
 
@@ -45,15 +53,38 @@ function Card({ locationId, title, cover }) {
     e.currentTarget.style.transform = 'scale(1)';
   };
 
+  // Gestion des styles avec media queries inline
+  const cardLinkStyle = {
+    ...styles.cardLink,
+    '@media (max-width: 768px)': undefined // Supprime la propriété non supportée
+  };
+
+  const cardTitleStyle = {
+    ...styles.cardTitle,
+    '@media (max-width: 768px)': undefined // Supprime la propriété non supportée
+  };
+
   return (
     <Link 
       to={`/locations/${locationId}`} 
-      style={styles.cardLink}
+      style={{
+        ...cardLinkStyle,
+        ...(window.innerWidth <= 768 && {
+          width: '335px',
+          height: '255px'
+        })
+      }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       <img src={cover} alt={title} style={styles.cardImage} />
-      <h3 style={styles.cardTitle}>{title}</h3>
+      <h3 style={{
+        ...cardTitleStyle,
+        ...(window.innerWidth <= 768 && {
+          padding: '15px',
+          fontSize: '1rem'
+        })
+      }}>{title}</h3>
     </Link>
   );
 }

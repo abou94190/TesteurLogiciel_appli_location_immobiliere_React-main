@@ -29,13 +29,28 @@ const styles = {
 
 const mobileStyles = {
   footerContainer: {
+    width: '375px',
+    height: '209px',
     padding: '62px 20px',
+    opacity: 1,
+    position: 'relative', // Pour utiliser top/left sur les enfants
   },
   text: {
     fontSize: '12px',
+    fontFamily: 'Montserrat',
+    fontWeight: '500',
+    textAlign: 'center',
+    lineHeight: '143%',
+    letterSpacing: '0%',
+    verticalAlign: 'bottom',
+    width: '133.59px', // arrondi à 2 décimales
+    height: '46px',
+    opacity: 1,
+    position: 'absolute',
+    top: '105px',
+    left: '121.09px',
   }
 };
-
 export default function Footer() {
   const isMobile = window.innerWidth <= 768;
   const currentStyles = isMobile ? mobileStyles : {};

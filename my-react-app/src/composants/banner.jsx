@@ -34,7 +34,7 @@ const styles = {
     zIndex: 3,
     color: 'white',
     fontSize: '48px',
-    fontWeight: 500,
+    fontWeight: 'bold',
     textAlign: 'center',
     top: '50%',
     transform: 'translateY(-50%)',
@@ -46,14 +46,24 @@ const styles = {
 
 const mobileStyles = {
   bannerWrapper: {
+    width: '335px',
     height: '111px',
     borderRadius: '10px',
     marginBottom: '20px',
+    borderWidth: '1px',
+    mixBlendMode: 'darken',
+    opacity: 1,
   },
   bannerText: {
     fontSize: '24px',
+    fontFamily: 'Montserrat, sans-serif',
+    fontWeight: 'bold',
+    fontStyle: 'normal',
     textAlign: 'left',
     paddingLeft: '16px',
+    lineHeight: '100%',
+    letterSpacing: '0%',
+    verticalAlign: 'bottom',
   }
 };
 
