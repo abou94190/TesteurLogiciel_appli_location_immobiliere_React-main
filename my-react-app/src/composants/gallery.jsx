@@ -1,52 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Card from "./card";
 
-const styles = {
-  galleryContainer: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
-    gap: '50px',
-    padding: '56px 50px',
-    backgroundColor: '#F6F6F6',
-    borderRadius: '25px',
-    width: '100%',
-  },
-  loadingMessage: {
-    gridColumn: '1 / -1',
-    textAlign: 'center',
-    padding: '2rem',
-    fontSize: '1.2rem',
-    color: '#666'
-  },
-  errorMessage: {
-    gridColumn: '1 / -1',
-    textAlign: 'center',
-    padding: '2rem',
-    fontSize: '1.2rem',
-    color: '#ff6b6b'
-  }
-};
-
-const mobileStyles = {
-  galleryContainer: {
-    gridTemplateColumns: '1fr',
-    gap: '20px',
-    padding: '20px',
-    backgroundColor: 'transparent',
-    borderRadius: '0',
-  }
-};
-
 function Gallery() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+    const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -74,12 +36,33 @@ function Gallery() {
     fetchData();
   }, []);
 
-  const currentStyles = isMobile ? mobileStyles : {};
+  const isMobile = windowWidth <= 768;
+  const isTablet = windowWidth > 768 && windowWidth <= 1024;
+
+  const styles = {
+    galleryContainer: {
+      display: 'grid',
+      gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+      gap: isMobile ? '20px' : isTablet ? '30px' : '50px',
+      padding: isMobile ? '20px 10px' : isTablet ? '40px' : '56px 50px', // Changé: '20px 10px' sur mobile
+      backgroundColor: isMobile ? 'transparent' : '#F6F6F6',
+      borderRadius: isMobile ? '0' : '25px',
+      width: '100%',
+      boxSizing: 'border-box', // Ajouté pour inclure padding dans la largeur
+      margin: '0 auto', // Ajouté pour centrer
+    },
+    messageStyle: {
+      gridColumn: '1 / -1',
+      textAlign: 'center',
+      padding: '2rem',
+      fontSize: isMobile ? '1rem' : '1.2rem',
+    }
+  };
 
   if (loading) {
     return (
-      <div style={{...styles.galleryContainer, ...currentStyles.galleryContainer}}>
-        <div style={styles.loadingMessage}>
+      <div style={styles.galleryContainer}>
+        <div style={{...styles.messageStyle, color: '#666'}}>
           Chargement des propriétés...
         </div>
       </div>
@@ -88,14 +71,14 @@ function Gallery() {
 
   if (error) {
     return (
-      <div style={{...styles.galleryContainer, ...currentStyles.galleryContainer}}>
-        <div style={styles.errorMessage}>{error}</div>
+      <div style={styles.galleryContainer}>
+        <div style={{...styles.messageStyle, color: '#ff6b6b'}}>{error}</div>
       </div>
     );
   }
 
   return (
-    <div style={{...styles.galleryContainer, ...currentStyles.galleryContainer}}>
+    <div style={styles.galleryContainer}>
       {properties.map((property) => (
         <Card
           key={property.id}
