@@ -44,12 +44,12 @@ function Gallery() {
       display: 'grid',
       gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
       gap: isMobile ? '20px' : isTablet ? '30px' : '50px',
-      padding: isMobile ? '20px 10px' : isTablet ? '40px' : '56px 50px', // Changé: '20px 10px' sur mobile
+      padding: isMobile ? '0' : isTablet ? '40px' : '56px 50px',
       backgroundColor: isMobile ? 'transparent' : '#F6F6F6',
       borderRadius: isMobile ? '0' : '25px',
-      width: '100%',
-      boxSizing: 'border-box', // Ajouté pour inclure padding dans la largeur
-      margin: '0 auto', // Ajouté pour centrer
+      width: isMobile ? '335px' : '100%',
+      boxSizing: 'border-box',
+      margin: '0 auto',
     },
     messageStyle: {
       gridColumn: '1 / -1',
