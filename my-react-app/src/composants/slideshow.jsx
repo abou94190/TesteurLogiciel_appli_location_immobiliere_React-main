@@ -1,53 +1,63 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import arrowLeft from '../assets/arrow-left.svg';
 import arrowRight from '../assets/arrow-right.svg';
-
-const styles = {
-  slideshowContainer: {
-    position: "relative",
-    width: "100%",
-    height: "415px",
-    borderRadius: "15px",
-    overflow: "hidden",
-  },
-  slideImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    display: "block",
-  },
-  arrowButton: {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    cursor: "pointer",
-    zIndex: 2,
-    width: "48px",
-    height: "48px",
-    filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))",
-  },
-  arrowButtonLeft: {
-    left: "20px",
-  },
-  arrowButtonRight: {
-    right: "20px",
-  },
-  counter: {
-    position: "absolute",
-    bottom: "15px",
-    left: "50%",
-    transform: "translateX(-50%)",
-    color: "white",
-    fontSize: "1rem",
-    fontWeight: "bold",
-    textShadow: "0px 0px 4px rgba(0,0,0,0.7)",
-  },
-};
 
 const Slideshow = ({ pictures = [] }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHoveringLeft, setIsHoveringLeft] = useState(false);
   const [isHoveringRight, setIsHoveringRight] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isMobile = windowWidth <= 768;
+
+  const styles = {
+    slideshowContainer: {
+      position: "relative",
+      width: isMobile ? "335px" : "100%",
+      height: isMobile ? "255px" : "415px",
+      borderRadius: isMobile ? "10px" : "15px",
+      overflow: "hidden",
+      margin: "0 auto",
+    },
+    slideImage: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      display: "block",
+    },
+    arrowButton: {
+      position: "absolute",
+      top: "50%",
+      transform: "translateY(-50%)",
+      cursor: "pointer",
+      zIndex: 2,
+      width: isMobile ? "24px" : "48px",
+      height: isMobile ? "24px" : "48px",
+      filter: "drop-shadow(0px 2px 4px rgba(0,0,0,0.5))",
+    },
+    arrowButtonLeft: {
+      left: isMobile ? "10px" : "20px",
+    },
+    arrowButtonRight: {
+      right: isMobile ? "10px" : "20px",
+    },
+    counter: {
+      position: "absolute",
+      bottom: isMobile ? "10px" : "15px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      color: "white",
+      fontSize: isMobile ? "0.875rem" : "1rem",
+      fontWeight: "bold",
+      textShadow: "0px 0px 4px rgba(0,0,0,0.7)",
+    },
+  };
 
   if (!pictures || pictures.length === 0) {
     return (
